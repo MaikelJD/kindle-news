@@ -27,8 +27,8 @@
 
   body {
     font-family: var(--grotesk);
-    font-size: 17px;          /* 6"-E-Ink: groesser -> physisch lesbar, kuerzere Zeilen */
-    line-height: 1.58;
+    font-size: 22px;          /* 6"-E-Ink: gross & gut lesbar (Nutzerwunsch) */
+    line-height: 1.5;
     font-weight: 400;
     -webkit-font-smoothing: none;
   }
@@ -75,8 +75,8 @@
   .intro {
     font-family: var(--grotesk);
     font-weight: 400;
-    font-size: 18px;
-    line-height: 1.52;
+    font-size: 23px;
+    line-height: 1.46;
     color: var(--text);
     margin: 40px 0 0 0;
   }
@@ -120,13 +120,13 @@
     content: counter(pkt, decimal-leading-zero);
     font-family: var(--didone);
     font-weight: 400;
-    font-size: 14.5px;
-    min-width: 24px;
+    font-size: 18px;
+    min-width: 28px;
     color: var(--grau);
   }
   ol.punkte li span {
-    font-size: 16px;
-    line-height: 1.48;
+    font-size: 20px;
+    line-height: 1.42;
     font-weight: 400;
     color: var(--text);
   }
@@ -137,8 +137,8 @@
   .artikel h3 {
     font-family: var(--didone);
     font-weight: 500;
-    font-size: 20px;
-    line-height: 1.16;
+    font-size: 26px;
+    line-height: 1.14;
     letter-spacing: -0.01em;
     margin: 0 0 9px 0;
     break-inside: avoid;
@@ -149,32 +149,32 @@
   /* Bild + Bildunterschrift zusammenhalten und mit der Schlagzeile koppeln */
   .artikel .bild { break-inside: avoid; break-after: avoid; }
   .artikel p {
-    margin: 0 0 10px 0;
-    font-size: 17px;
-    line-height: 1.58;
+    margin: 0 0 12px 0;
+    font-size: 22px;
+    line-height: 1.5;
     color: var(--text);
   }
   .artikel p:last-child { margin-bottom: 0; }
 
   /* Tages-Aufmacher: gross, mit Bild, ruhiger Grotesk-Vorspann */
   .artikel.lead h3 {
-    font-size: 27px;
-    line-height: 1.06;
+    font-size: 34px;
+    line-height: 1.04;
     letter-spacing: -0.02em;
-    margin-bottom: 13px;
+    margin-bottom: 14px;
   }
   .artikel.lead .vorspann {
     font-weight: 500;
-    font-size: 18px;
-    line-height: 1.48;
+    font-size: 23px;
+    line-height: 1.44;
   }
 
   /* Ressort-Aufmacher (nicht Tages-Lead): mittelgross, ohne Bild */
   .artikel.aufmacher h3 {
-    font-size: 22px;
-    line-height: 1.1;
+    font-size: 28px;
+    line-height: 1.08;
     letter-spacing: -0.015em;
-    margin-bottom: 11px;
+    margin-bottom: 12px;
   }
 
   /* ---------- Bildflaeche ---------- */
