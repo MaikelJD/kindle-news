@@ -1,0 +1,10 @@
+requests
+feedparser
+PyYAML
+openai
+python-dotenv
+jinja2
+playwright
+tzdata
+trafilatura
+pillow

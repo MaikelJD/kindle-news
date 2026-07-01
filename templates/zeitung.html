@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /*
+    EDITORIAL v4 — Kindle-4 E-Ink (600 x 800 px), reines Schwarz/Weiss.
+    Haltung: edel, ruhig, EINHEITLICHE Raender (kommen als echte PDF-Seiten-
+    raender -> auf jeder Seite gleich), feine Linien, leichte Schnitte.
+    Didone NUR fuer Masthead + Schlagzeilen + Ziffern. Sonst Grotesk (ruhig).
+  */
+
+  :root {
+    --didone: 'Bodoni Moda', 'Times New Roman', serif;
+    --grotesk: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --tinte: #111;
+    --text: #262626;
+    --grau: #8a8a8a;
+    --haar: #dcdcdc;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; color: var(--tinte); }
+
+  body {
+    font-family: var(--grotesk);
+    font-size: 12px;
+    line-height: 1.72;
+    font-weight: 400;
+    -webkit-font-smoothing: none;
+  }
+
+  .meta {
+    font-family: var(--grotesk);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  /* ---------- Folio ---------- */
+  .folio {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 8px;
+    color: var(--grau);
+    padding-bottom: 20px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead-titel {
+    font-family: var(--didone);
+    font-weight: 500;
+    font-size: 50px;
+    line-height: 0.96;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+
+  .wetter {
+    font-size: 8px;
+    color: var(--grau);
+    padding: 16px 0 0 0;
+    margin-top: 20px;
+    border-top: 0.5px solid var(--haar);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* ---------- Intro (ruhig, Grotesk) ---------- */
+  .intro {
+    font-family: var(--grotesk);
+    font-weight: 400;
+    font-size: 13.5px;
+    line-height: 1.66;
+    color: var(--text);
+    margin: 40px 0 0 0;
+  }
+
+  /* ---------- Sektion (einheitlich, eine linke Kante) ---------- */
+  .sektion { margin-top: 44px; }
+  .sektion > .kicker {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding-bottom: 11px;
+    margin-bottom: 18px;
+    border-bottom: 0.5px solid var(--haar);
+  }
+  .kicker .nr {
+    font-family: var(--didone);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--grau);
+  }
+  .kicker .name {
+    font-family: var(--grotesk);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinte);
+  }
+
+  /* ---------- Ueberblick "Das Wichtigste" ---------- */
+  ol.punkte { list-style: none; margin: 0; padding: 0; counter-reset: pkt; }
+  ol.punkte li {
+    counter-increment: pkt;
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 0 0 15px 0;
+  }
+  ol.punkte li:last-child { padding-bottom: 0; }
+  ol.punkte li::before {
+    content: counter(pkt, decimal-leading-zero);
+    font-family: var(--didone);
+    font-weight: 400;
+    font-size: 13px;
+    min-width: 22px;
+    color: var(--grau);
+  }
+  ol.punkte li span {
+    font-size: 12.5px;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--text);
+  }
+
+  /* ---------- Artikel ---------- */
+  .artikel { margin-bottom: 26px; }
+  .artikel:last-child { margin-bottom: 0; }
+  .artikel h3 {
+    font-family: var(--didone);
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    margin: 0 0 9px 0;
+    break-inside: avoid;
+    break-after: avoid;
+  }
+  /* Ueberblickspunkte nicht ueber den Seitenrand brechen */
+  ol.punkte li { break-inside: avoid; }
+  /* Bild + Bildunterschrift zusammenhalten und mit der Schlagzeile koppeln */
+  .artikel .bild { break-inside: avoid; break-after: avoid; }
+  .artikel p {
+    margin: 0 0 10px 0;
+    font-size: 12px;
+    line-height: 1.72;
+    color: var(--text);
+  }
+  .artikel p:last-child { margin-bottom: 0; }
+
+  /* Tages-Aufmacher: gross, mit Bild, ruhiger Grotesk-Vorspann */
+  .artikel.lead h3 {
+    font-size: 33px;
+    line-height: 1.0;
+    letter-spacing: -0.022em;
+    margin-bottom: 14px;
+  }
+  .artikel.lead .vorspann {
+    font-weight: 500;
+    font-size: 13.5px;
+    line-height: 1.62;
+  }
+
+  /* Ressort-Aufmacher (nicht Tages-Lead): mittelgross, ohne Bild */
+  .artikel.aufmacher h3 {
+    font-size: 24px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    margin-bottom: 11px;
+  }
+
+  /* ---------- Bildflaeche ---------- */
+  .bild {
+    background: #efefef;
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  /* Bilder in Rubrik-/Standard-Artikeln: gleiche Breite, etwas ruhiger gesetzt */
+  .bild.klein { margin-bottom: 22px; }
+  .bild span {
+    position: absolute;
+    left: 0; bottom: -15px;
+    font-family: var(--grotesk);
+    font-size: 7.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--grau);
+  }
+  /* Platzhalter-Beschriftung darf ruhig gesperrt-versal bleiben */
+  .bild.platzhalter span {
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+  <div class="folio meta">
+    <span>{{ ort }} &mdash; Persönliche Ausgabe</span>
+    <span>{{ datum_text }}</span>
+  </div>
+
+  <h1 class="masthead-titel">{{ titel }}.</h1>
+
+  <div class="wetter meta">
+    <span>{{ wetter.heute.beschreibung }}</span>
+    <span>{{ wetter.heute.min }}&ndash;{{ wetter.heute.max }}&deg;</span>
+    <span>Regen {{ wetter.heute.regen_prozent }}&#37;</span>
+    <span>Sonne {{ wetter.heute.sonnenaufgang }}&ndash;{{ wetter.heute.sonnenuntergang }}</span>
+  </div>
+
+  {% if intro %}
+  <p class="intro">{{ intro }}</p>
+  {% endif %}
+
+  {% if wichtigste %}
+  <section class="sektion">
+    <div class="kicker"><span class="name">Auf einen Blick</span></div>
+    <ol class="punkte">
+      {% for punkt in wichtigste %}
+      <li><span>{{ punkt }}</span></li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  {% for ressort in ressorts %}
+  {% set ressort_first = loop.first %}
+  <section class="sektion">
+    <div class="kicker">
+      <span class="nr">{{ "%02d"|format(loop.index) }}</span>
+      <span class="name">{{ ressort.name }}</span>
+    </div>
+    {% for artikel in ressort.artikel %}
+    {% set ist_lead = ressort_first and loop.first %}
+    <div class="artikel {{ 'lead' if ist_lead else ('aufmacher' if artikel.rolle == 'aufmacher' else '') }}">
+      {% if artikel.bild_data %}
+      <div class="bild {{ '' if ist_lead else 'klein' }}" style="background-image:url('{{ artikel.bild_data }}'); background-size:cover; background-position:center;"><span>{{ artikel.bild_credit }}</span></div>
+      {% elif ist_lead %}
+      <div class="bild platzhalter"><span>Abbildung folgt</span></div>
+      {% endif %}
+      <h3>{{ artikel.titel }}</h3>
+      {% for absatz in artikel.zusammenfassung %}
+      {% if ist_lead and loop.first %}
+      <p class="vorspann">{{ absatz }}</p>
+      {% else %}
+      <p>{{ absatz }}</p>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endfor %}
+
+</body>
+</html>

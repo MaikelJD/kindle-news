@@ -1,0 +1,22 @@
+.env
+# Alle erzeugten Ausgaben ignorieren (PDF/JSON/PNG) -- nur den Platzhalter behalten,
+# damit der Ordner im Repo existiert. Verhindert, dass Test-Ausgaben oeffentlich werden.
+output/*
+!output/.gitkeep
+__pycache__/
+*.pyc
+.venv/
+venv/
+site/
+
+# Lokale Editor-/Tool-Einstellungen (nicht ins oeffentliche Repo)
+.claude/
+
+# Private Design-Inspiration (fremde Bilder, Urheberrecht) -- nur lokal
+Ref/
+
+# Lokales Archiv alter Ausgaben (Historie) -- bleibt privat, nicht ins Repo
+archive/
+
+# Interne Projekt-/KI-Notizen -- nur lokal, nicht oeffentlich
+CLAUDE.md

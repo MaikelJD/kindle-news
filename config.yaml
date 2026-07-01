@@ -1,0 +1,53 @@
+# config.yaml — alle Einstellungen deiner Zeitung an einem Ort
+
+zeitung:
+  sprache: "de"            # Zeitung erscheint auf Deutsch
+  titel: "Deine Morgenausgabe"
+  lesezeit_minuten: 12     # Zielwert -> sagt der KI: fasse knapp zusammen
+
+standort:                  # für das Wetter (Open-Meteo, kein Key nötig)
+  # BEWUSST ungenau/regional: Der Name erscheint im PDF (Kopfzeile + Begrüßung),
+  # die Koordinaten stehen in dieser – ggf. öffentlichen – Datei. Darum ein
+  # größerer Bezugspunkt in der Nähe statt des genauen Wohnorts. Fürs Wetter
+  # reicht das völlig (nur ~15–20 km Unterschied).
+  name: "Rhein-Main"
+  breitengrad: 50.10       # Lat  (Raum Offenbach/Hanau – nicht der genaue Ort)
+  laengengrad: 8.77        # Lon
+  zeitzone: "Europe/Berlin"
+
+ki:
+  # Modell über OpenRouter. Format: anbieter/modell
+  # Für beste Qualität: "anthropic/claude-sonnet-4.6"
+  modell: "anthropic/claude-haiku-4.5"
+
+# Lizenzfreie Bilder (Wikimedia Commons / Openverse).
+# max = wie viele Bilder höchstens pro Ausgabe. Bewusst sparsam gehalten,
+# damit das kleine E-Ink-Layout ruhig bleibt. Auswahl-Logik siehe
+# fetch_images.setze_bilder ("Kombi": Aufmacher + besonders bildwürdige).
+bilder:
+  max: 4
+
+# Ressorts = die Abschnitte deiner Zeitung, in dieser Reihenfolge.
+# max_artikel steuert die Gewichtung: mehr = größerer Abschnitt.
+# Der ERSTE Artikel je Ressort wird zum "Aufmacher" -> ausführlicher Text
+# mit Hintergrund und Einordnung. Die weiteren bleiben kompakt.
+ressorts:
+  - name: "Das Wichtigste"
+    feed: "https://www.tagesschau.de/xml/rss2/"
+    max_artikel: 3
+
+  - name: "Weltpolitik"
+    feed: "https://www.tagesschau.de/ausland/index~rss2.xml"
+    max_artikel: 3
+
+  - name: "Tech & KI"
+    feed: "https://www.heise.de/rss/heise-atom.xml"
+    max_artikel: 2
+
+  - name: "Wissenschaft"
+    feed: "https://www.tagesschau.de/wissen/index~rss2.xml"
+    max_artikel: 2
+
+  - name: "Region Rhein-Main"
+    feed: "https://www.hessenschau.de/index.rss"
+    max_artikel: 2
