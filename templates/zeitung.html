@@ -27,8 +27,8 @@
 
   body {
     font-family: var(--grotesk);
-    font-size: 12px;
-    line-height: 1.72;
+    font-size: 15px;          /* 6"-E-Ink: groesser -> physisch lesbar, kuerzere Zeilen */
+    line-height: 1.6;
     font-weight: 400;
     -webkit-font-smoothing: none;
   }
@@ -45,7 +45,7 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 8px;
+    font-size: 9px;
     color: var(--grau);
     padding-bottom: 20px;
   }
@@ -54,14 +54,14 @@
   .masthead-titel {
     font-family: var(--didone);
     font-weight: 500;
-    font-size: 50px;
-    line-height: 0.96;
+    font-size: 42px;
+    line-height: 0.98;
     letter-spacing: -0.015em;
     margin: 0;
   }
 
   .wetter {
-    font-size: 8px;
+    font-size: 9.5px;
     color: var(--grau);
     padding: 16px 0 0 0;
     margin-top: 20px;
@@ -75,8 +75,8 @@
   .intro {
     font-family: var(--grotesk);
     font-weight: 400;
-    font-size: 13.5px;
-    line-height: 1.66;
+    font-size: 16px;
+    line-height: 1.55;
     color: var(--text);
     margin: 40px 0 0 0;
   }
@@ -94,12 +94,12 @@
   .kicker .nr {
     font-family: var(--didone);
     font-weight: 400;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--grau);
   }
   .kicker .name {
     font-family: var(--grotesk);
-    font-size: 9px;
+    font-size: 9.5px;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -120,12 +120,12 @@
     content: counter(pkt, decimal-leading-zero);
     font-family: var(--didone);
     font-weight: 400;
-    font-size: 13px;
-    min-width: 22px;
+    font-size: 14.5px;
+    min-width: 24px;
     color: var(--grau);
   }
   ol.punkte li span {
-    font-size: 12.5px;
+    font-size: 14.5px;
     line-height: 1.5;
     font-weight: 400;
     color: var(--text);
@@ -137,7 +137,7 @@
   .artikel h3 {
     font-family: var(--didone);
     font-weight: 500;
-    font-size: 19px;
+    font-size: 20px;
     line-height: 1.16;
     letter-spacing: -0.01em;
     margin: 0 0 9px 0;
@@ -150,29 +150,29 @@
   .artikel .bild { break-inside: avoid; break-after: avoid; }
   .artikel p {
     margin: 0 0 10px 0;
-    font-size: 12px;
-    line-height: 1.72;
+    font-size: 15px;
+    line-height: 1.6;
     color: var(--text);
   }
   .artikel p:last-child { margin-bottom: 0; }
 
   /* Tages-Aufmacher: gross, mit Bild, ruhiger Grotesk-Vorspann */
   .artikel.lead h3 {
-    font-size: 33px;
-    line-height: 1.0;
-    letter-spacing: -0.022em;
-    margin-bottom: 14px;
+    font-size: 27px;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    margin-bottom: 13px;
   }
   .artikel.lead .vorspann {
     font-weight: 500;
-    font-size: 13.5px;
-    line-height: 1.62;
+    font-size: 16px;
+    line-height: 1.5;
   }
 
   /* Ressort-Aufmacher (nicht Tages-Lead): mittelgross, ohne Bild */
   .artikel.aufmacher h3 {
-    font-size: 24px;
-    line-height: 1.08;
+    font-size: 22px;
+    line-height: 1.1;
     letter-spacing: -0.015em;
     margin-bottom: 11px;
   }
@@ -180,18 +180,20 @@
   /* ---------- Bildflaeche ---------- */
   .bild {
     background: #efefef;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;      /* flacher als 4:3 -> frisst auf 6" weniger Hoehe */
     width: 100%;
-    margin-bottom: 28px;
+    margin-bottom: 26px;
     position: relative;
+    /* Feine Kante: helle Fotos verschwimmen sonst mit dem weissen Seitenrand */
+    border: 1px solid #cfcfcf;
   }
-  /* Bilder in Rubrik-/Standard-Artikeln: gleiche Breite, etwas ruhiger gesetzt */
-  .bild.klein { margin-bottom: 22px; }
+  /* Bilder in Rubrik-/Standard-Artikeln: flacher (Banner) und ruhiger gesetzt */
+  .bild.klein { aspect-ratio: 2 / 1; margin-bottom: 20px; }
   .bild span {
     position: absolute;
-    left: 0; bottom: -15px;
+    left: 0; bottom: -16px;
     font-family: var(--grotesk);
-    font-size: 7.5px;
+    font-size: 8.5px;
     font-weight: 500;
     letter-spacing: 0.04em;
     color: var(--grau);
