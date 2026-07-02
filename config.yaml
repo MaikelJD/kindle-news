@@ -22,10 +22,11 @@ ki:
 
 # PDF-Darstellung. schriftgroesse_px ist DER Regler fuer die Lesbarkeit:
 # die gesamte Typo-Skala (Fliesstext, Schlagzeilen, Listen) haengt daran und
-# skaliert proportional mit. Am Geraet pruefen und hier feinjustieren --
-# 26 = kraeftig gross, 28 = deine gewohnte Kindle-Lesegroesse.
+# skaliert proportional mit. Am Geraet pruefen und hier feinjustieren.
+# 28 = deine gewohnte Kindle-Lesegroesse (gilt fuer KOReader im
+# Seitenmodus, wo die Seite 1:1 in Geraeteaufloesung angezeigt wird).
 pdf:
-  schriftgroesse_px: 26
+  schriftgroesse_px: 28
 
 # Lizenzfreie Bilder (Wikimedia Commons / Openverse).
 # max = wie viele Bilder höchstens pro Ausgabe. Bewusst sparsam gehalten,

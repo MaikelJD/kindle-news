@@ -140,7 +140,7 @@ def baue_pdf(zeitung, config, ziel_pfad=None):
     footer = (
         '<div style="width:100%; text-align:center;'
         ' font-family:Georgia, \'Times New Roman\', serif;'
-        ' font-size:8px; letter-spacing:0.3em; color:#9a9a9a;">'
+        ' font-size:9px; letter-spacing:0.3em; color:#777;">'
         '<span class="pageNumber"></span></div>'
     )
     leer = '<div></div>'
