@@ -78,10 +78,19 @@ def _baue_html(zeitung, config):
 
     zeitzone = config.get("standort", {}).get("zeitzone", "Europe/Berlin")
 
+    # Die Titelseite ist eine feste Komposition und muss EXAKT eine Seite
+    # fuellen: Seitenhoehe minus die beiden PDF-Raender (plus 2px Toleranz,
+    # damit Rundungsfehler keine Leerseite erzeugen).
+    pdf_einst = config.get("pdf", {})
+    cover_hoehe = (
+        pdf_einst.get("hoehe_px", 800) - 2 * pdf_einst.get("rand_px", 48) - 2
+    )
+
     return vorlage.render(
         # Basis-Schriftgroesse aus config.yaml -- die ganze Typo-Skala im
         # Template ist in rem angelegt und skaliert daran mit.
-        basis_schrift=config.get("pdf", {}).get("schriftgroesse_px", 26),
+        basis_schrift=pdf_einst.get("schriftgroesse_px", 26),
+        cover_hoehe=cover_hoehe,
         titel=config["zeitung"]["titel"],
         ort=config.get("standort", {}).get("name", ""),
         datum_text=_deutsches_datum(zeitzone),
@@ -126,9 +135,12 @@ def baue_pdf(zeitung, config, ziel_pfad=None):
     rand = pdf_einst.get("rand_px", 48)
 
     # Dezente, mittige Seitenzahl im unteren Rand -- fuer visuelle Ruhe.
+    # (Im Fusszeilen-Template stehen nur System-Schriften zur Verfuegung,
+    # darum Georgia statt der Webfonts.)
     footer = (
-        '<div style="width:100%; text-align:center; font-family:Arial, sans-serif;'
-        ' font-size:7px; letter-spacing:0.25em; color:#9a9a9a;">'
+        '<div style="width:100%; text-align:center;'
+        ' font-family:Georgia, \'Times New Roman\', serif;'
+        ' font-size:8px; letter-spacing:0.3em; color:#9a9a9a;">'
         '<span class="pageNumber"></span></div>'
     )
     leer = '<div></div>'

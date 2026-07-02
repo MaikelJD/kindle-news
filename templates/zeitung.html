@@ -4,30 +4,39 @@
 <meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" rel="stylesheet">
 <style>
   /*
-    EDITORIAL v5 — Kindle-4 E-Ink (600 x 800 px), reines Schwarz/Weiss.
-    Haltung: edel, ruhig, EINHEITLICHE Raender (kommen als echte PDF-Seiten-
-    raender -> auf jeder Seite gleich), feine Linien, leichte Schnitte.
-    Didone NUR fuer Masthead + Schlagzeilen + Ziffern. Sonst Grotesk (ruhig).
+    EDITORIAL v6 — Kindle-4 E-Ink (600 x 800 px), reines Schwarz/Weiss.
+
+    Komposition nach den Referenzen in Ref/Editorial:
+    - Seite 1 ist ein KOMPONIERTES COVER (Masthead, Datum, grosses Bild,
+      Wetter als feine Fussleiste) statt eines blossen Textbeginns.
+    - ZENTRIERTE ACHSE fuer alles Architektonische: Labels, Ressort-Nummern,
+      Bildunterschriften, Schlagzeilen. Lesetext bleibt Blocksatz linksbuendig.
+    - Jedes Ressort beginnt auf einer NEUEN SEITE (Kapitel-Dramaturgie).
+
+    Schriften (drei Rollen):
+    - Bodoni Moda (Didone)   -> NUR gross: Masthead, Schlagzeilen, Ziffern.
+    - Literata (Lese-Serif)  -> Fliesstext. Fuer E-Reader entworfen (Google
+      Play Books): kraeftige Serifen, die auf altem E-Ink nicht wegbrechen.
+    - Hanken Grotesk         -> Beschriftungs-Ebene (gesperrte Versalien).
 
     Typo-System: Zwei Ebenen.
     1. LESE-EBENE in rem — haengt an html { font-size } (= schriftgroesse_px
-       aus config.yaml) und skaliert komplett mit: Fliesstext, Schlagzeilen,
-       Intro, Ueberblickspunkte.
-    2. ARCHITEKTUR-EBENE in festen px — Folio, Kicker, Wetter, Bildnachweis.
-       Bleibt bewusst klein und konstant: der Groessenkontrast zwischen
-       grosszuegigem Lesetext und feiner Beschriftung traegt die Eleganz.
+       aus config.yaml) und skaliert komplett mit.
+    2. ARCHITEKTUR-EBENE in festen px — Labels, Wetter, Credits. Bleibt
+       bewusst klein und konstant: der Groessenkontrast traegt die Eleganz.
   */
 
   :root {
     --didone: 'Bodoni Moda', 'Times New Roman', serif;
+    --serif: 'Literata', Georgia, serif;
     --grotesk: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
     --tinte: #111;
-    --text: #1f1f1f;
+    --text: #1c1c1c;
     --grau: #8a8a8a;
-    --haar: #dcdcdc;
+    --haar: #d8d8d8;
   }
 
   * { box-sizing: border-box; }
@@ -38,13 +47,12 @@
   html, body { margin: 0; padding: 0; background: #fff; color: var(--tinte); }
 
   body {
-    font-family: var(--grotesk);
+    font-family: var(--serif);
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.52;
     font-weight: 400;
-    -webkit-font-smoothing: none;
-    /* Trennregel fuer ALLES, was Silbentrennung nutzt: Wort min. 6 Zeichen,
-       vor und nach dem Trennstrich min. 3 ("Be-wegung" saehe billig aus). */
+    font-optical-sizing: auto;
+    /* Trennregel: Wort min. 6 Zeichen, vor/nach dem Strich min. 3. */
     hyphenate-limit-chars: 6 3 3;
   }
 
@@ -52,88 +60,128 @@
     font-family: var(--grotesk);
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
   }
 
-  /* ---------- Folio ---------- */
-  .folio {
+  /* ================= COVER (Seite 1) ================= */
+  .cover {
+    height: {{ cover_hoehe | default(702) }}px;
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    flex-direction: column;
+    break-after: page;
+    text-align: center;
+  }
+  .dachzeile {
     font-size: 10px;
     color: var(--grau);
-    padding-bottom: 20px;
   }
-
-  /* ---------- Masthead ---------- */
   .masthead-titel {
     font-family: var(--didone);
     font-weight: 500;
     font-size: 46px;
-    line-height: 0.98;
+    line-height: 1.0;
     letter-spacing: -0.015em;
-    margin: 0;
+    margin: 18px 0 0 0;
   }
-
-  .wetter {
+  .cover-datum {
     font-size: 10.5px;
+    font-weight: 600;
+    color: var(--tinte);
+    margin-top: 16px;
+    padding-bottom: 20px;
+    border-bottom: 0.5px solid var(--haar);
+  }
+  .cover-bild {
+    flex: 1;                          /* fuellt den verbleibenden Raum */
+    margin-top: 24px;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #cfcfcf;        /* helle Fotos brauchen eine Kante */
+  }
+  .cover-bild.platzhalter {
+    background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cover-bild.platzhalter span {
+    font-size: 9px;
     color: var(--grau);
-    padding: 16px 0 0 0;
-    margin-top: 20px;
+  }
+  .cover-credit {
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+    color: var(--grau);
+    margin-top: 8px;
+  }
+  .cover-wetter {
+    margin-top: 18px;
+    padding-top: 14px;
     border-top: 0.5px solid var(--haar);
     display: flex;
-    gap: 18px;
+    justify-content: center;
+    gap: 16px;
     flex-wrap: wrap;
+    font-size: 10px;
+    color: var(--grau);
   }
 
-  /* ---------- Intro (ruhig, Grotesk) ---------- */
-  .intro {
-    font-family: var(--grotesk);
+  /* ================= Wiederkehrende Opener ================= */
+  /* Zentrierte Kapitelmarke: (Didone-Ziffer +) gesperrtes Label + Haarstrich */
+  .ressort-nr {
+    font-family: var(--didone);
     font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--grau);
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .blocklabel {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--tinte);
+    text-align: center;
+    break-after: avoid;
+  }
+  .blocklabel::after {
+    content: '';
+    display: block;
+    width: 2.3rem;
+    height: 1px;
+    background: var(--haar);
+    margin: 13px auto 0;
+  }
+
+  .sektion { margin-top: 1.9rem; }
+  .sektion.ressort {
+    break-before: page;               /* jedes Ressort = neues Kapitel */
+    margin-top: 0;
+    padding-top: 4px;
+  }
+  .sektion .opener { margin-bottom: 1.1rem; }
+
+  /* ================= Intro ("Zum Tage") ================= */
+  .sektion.zumtage { margin-top: 0; padding-top: 4px; }
+  .intro {
+    font-family: var(--serif);
+    font-style: italic;
     font-size: 1.02rem;
-    line-height: 1.46;
+    line-height: 1.52;
     color: var(--text);
-    margin: 1.5rem 0 0 0;
+    margin: 0;
+    text-align: justify;
     hyphens: auto;
     -webkit-hyphens: auto;
   }
 
-  /* ---------- Sektion (einheitlich, eine linke Kante) ---------- */
-  .sektion { margin-top: 1.7rem; }
-  .sektion > .kicker {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    padding-bottom: 11px;
-    margin-bottom: 0.7rem;
-    border-bottom: 0.5px solid var(--haar);
-    /* Kicker darf nie allein am Seitenende stranden -> mit Inhalt umbrechen */
-    break-inside: avoid;
-    break-after: avoid;
-  }
-  .kicker .nr {
-    font-family: var(--didone);
-    font-weight: 400;
-    font-size: 16px;
-    color: var(--grau);
-  }
-  .kicker .name {
-    font-family: var(--grotesk);
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--tinte);
-  }
-
-  /* ---------- Ueberblick "Das Wichtigste" ---------- */
+  /* ================= Ueberblick "Auf einen Blick" ================= */
   ol.punkte { list-style: none; margin: 0; padding: 0; counter-reset: pkt; }
   ol.punkte li {
     counter-increment: pkt;
     display: flex;
     gap: 0.6rem;
     align-items: baseline;
-    padding: 0 0 0.6rem 0;
+    padding: 0 0 0.62rem 0;
     break-inside: avoid;
   }
   ol.punkte li:last-child { padding-bottom: 0; }
@@ -147,36 +195,35 @@
   }
   ol.punkte li span {
     font-size: 0.9rem;
-    line-height: 1.44;
-    font-weight: 400;
+    line-height: 1.48;
     color: var(--text);
     hyphens: auto;
     -webkit-hyphens: auto;
   }
 
-  /* ---------- Artikel ---------- */
-  .artikel { margin-bottom: 1.1rem; }
+  /* ================= Artikel ================= */
+  .artikel { margin-bottom: 1.35rem; }
   .artikel:last-child { margin-bottom: 0; }
+
   .artikel h3 {
     font-family: var(--didone);
     font-weight: 500;
     font-size: 1.12rem;
-    line-height: 1.15;
+    line-height: 1.16;
     letter-spacing: -0.01em;
-    margin: 0 0 0.35rem 0;
+    text-align: center;               /* klassische Zeitungsachse */
+    text-wrap: balance;
+    margin: 0 0 0.5rem 0;
     break-inside: avoid;
     break-after: avoid;
-    text-wrap: balance;       /* mehrzeilige Schlagzeilen gleichmaessig brechen */
   }
-  /* Bild + Bildunterschrift zusammenhalten und mit der Schlagzeile koppeln */
-  .artikel .bild { break-inside: avoid; break-after: avoid; }
+
   .artikel p {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.55rem 0;
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.52;
     color: var(--text);
-    /* Zeitungssatz: Blocksatz NUR mit Silbentrennung -- sonst entstehen
-       auf schmaler Spalte hässliche Wortluecken. */
+    /* Zeitungssatz: Blocksatz NUR mit Silbentrennung. */
     text-align: justify;
     hyphens: auto;
     -webkit-hyphens: auto;
@@ -185,79 +232,96 @@
   }
   .artikel p:last-child { margin-bottom: 0; }
 
-  /* Tages-Aufmacher: gross, mit Bild, ruhiger Grotesk-Vorspann */
+  /* Tages-Aufmacher: groesste Schlagzeile, kursiver Vorspann, Initial */
   .artikel.lead h3 {
-    font-size: 1.42rem;
-    line-height: 1.05;
+    font-size: 1.5rem;
+    line-height: 1.08;
     letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.55rem;
   }
-  .artikel.lead .vorspann {
-    font-weight: 500;
+  .artikel .vorspann {
+    font-style: italic;
     font-size: 1.02rem;
-    line-height: 1.44;
-    text-align: left;         /* Vorspann bleibt ruhig linksbündig */
+    line-height: 1.5;
+  }
+  /* Initial (nur der Tages-Aufmacher, erster Absatz NACH dem Vorspann) */
+  .artikel.lead p.vorspann + p::first-letter {
+    font-family: var(--didone);
+    font-weight: 500;
+    font-size: 3.05em;
+    line-height: 0.78;
+    float: left;
+    padding: 0.06em 0.12em 0 0;
   }
 
-  /* Ressort-Aufmacher (nicht Tages-Lead): mittelgross, ohne Bild */
+  /* Ressort-Aufmacher (nicht Tages-Lead) */
   .artikel.aufmacher h3 {
-    font-size: 1.24rem;
-    line-height: 1.1;
+    font-size: 1.28rem;
+    line-height: 1.12;
     letter-spacing: -0.015em;
-    margin-bottom: 0.45rem;
   }
 
-  /* ---------- Bildflaeche ---------- */
+  /* ================= Bildflaeche ================= */
   .bild {
     background: #efefef;
-    aspect-ratio: 3 / 2;      /* flacher als 4:3 -> frisst auf 6" weniger Hoehe */
+    aspect-ratio: 3 / 2;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 26px;              /* Platz fuer die Credit-Zeile */
     position: relative;
-    /* Feine Kante: helle Fotos verschwimmen sonst mit dem weissen Seitenrand */
     border: 1px solid #cfcfcf;
+    break-inside: avoid;
+    break-after: avoid;
   }
-  /* Bilder in Rubrik-/Standard-Artikeln: flacher (Banner) und ruhiger gesetzt */
-  .bild.klein { aspect-ratio: 2 / 1; margin-bottom: 0.8rem; }
+  .bild.klein { aspect-ratio: 2 / 1; }
   .bild span {
     position: absolute;
-    left: 0; bottom: -17px;
+    left: 0; right: 0;
+    bottom: -18px;
+    text-align: center;               /* Credits mittig, wie im Magazin */
     font-family: var(--grotesk);
-    font-size: 9px;
+    font-size: 8.5px;
     font-weight: 500;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     color: var(--grau);
-  }
-  /* Platzhalter-Beschriftung darf ruhig gesperrt-versal bleiben */
-  .bild.platzhalter span {
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
   }
 </style>
 </head>
 <body>
 
-  <div class="folio meta">
-    <span>{{ ort }} &mdash; Persönliche Ausgabe</span>
-    <span>{{ datum_text }}</span>
-  </div>
+  {% set lead_artikel = ressorts[0].artikel[0] if ressorts and ressorts[0].artikel else none %}
 
-  <h1 class="masthead-titel">{{ titel }}.</h1>
+  <!-- ============ Seite 1: Cover ============ -->
+  <section class="cover">
+    <div class="dachzeile meta">{{ ort }} &mdash; Persönliche Ausgabe</div>
+    <h1 class="masthead-titel">{{ titel }}.</h1>
+    <div class="cover-datum meta">{{ datum_text }}</div>
 
-  <div class="wetter meta">
-    <span>{{ wetter.heute.beschreibung }}</span>
-    <span>{{ wetter.heute.min }}&ndash;{{ wetter.heute.max }}&deg;</span>
-    <span>Regen {{ wetter.heute.regen_prozent }}&#37;</span>
-    <span>Sonne {{ wetter.heute.sonnenaufgang }}&ndash;{{ wetter.heute.sonnenuntergang }}</span>
-  </div>
+    {% if lead_artikel and lead_artikel.bild_data %}
+    <div class="cover-bild" style="background-image:url('{{ lead_artikel.bild_data }}')"></div>
+    <div class="cover-credit meta">{{ lead_artikel.bild_credit }}</div>
+    {% else %}
+    <div class="cover-bild platzhalter"><span class="meta">Ausgabe vom {{ datum_text }}</span></div>
+    {% endif %}
 
+    <div class="cover-wetter meta">
+      <span>{{ wetter.heute.beschreibung }}</span>
+      <span>{{ wetter.heute.min }}&ndash;{{ wetter.heute.max }}&deg;</span>
+      <span>Regen {{ wetter.heute.regen_prozent }}&#37;</span>
+      <span>Sonne {{ wetter.heute.sonnenaufgang }}&ndash;{{ wetter.heute.sonnenuntergang }}</span>
+    </div>
+  </section>
+
+  <!-- ============ Seite 2: Zum Tage + Ueberblick ============ -->
   {% if intro %}
-  <p class="intro">{{ intro }}</p>
+  <section class="sektion zumtage">
+    <div class="opener"><div class="blocklabel meta">Zum Tage</div></div>
+    <p class="intro">{{ intro }}</p>
+  </section>
   {% endif %}
 
   {% if wichtigste %}
   <section class="sektion">
-    <div class="kicker"><span class="name">Auf einen Blick</span></div>
+    <div class="opener"><div class="blocklabel meta">Auf einen Blick</div></div>
     <ol class="punkte">
       {% for punkt in wichtigste %}
       <li><span>{{ punkt }}</span></li>
@@ -266,20 +330,20 @@
   </section>
   {% endif %}
 
+  <!-- ============ Ressorts: jedes ein Kapitel ============ -->
   {% for ressort in ressorts %}
   {% set ressort_first = loop.first %}
-  <section class="sektion">
-    <div class="kicker">
-      <span class="nr">{{ "%02d"|format(loop.index) }}</span>
-      <span class="name">{{ ressort.name }}</span>
+  <section class="sektion ressort">
+    <div class="opener">
+      <div class="ressort-nr">{{ "%02d"|format(loop.index) }}</div>
+      <div class="blocklabel meta">{{ ressort.name }}</div>
     </div>
     {% for artikel in ressort.artikel %}
     {% set ist_lead = ressort_first and loop.first %}
     <div class="artikel {{ 'lead' if ist_lead else ('aufmacher' if artikel.rolle == 'aufmacher' else '') }}">
-      {% if artikel.bild_data %}
-      <div class="bild {{ '' if ist_lead else 'klein' }}" style="background-image:url('{{ artikel.bild_data }}'); background-size:cover; background-position:center;"><span>{{ artikel.bild_credit }}</span></div>
-      {% elif ist_lead %}
-      <div class="bild platzhalter"><span>Abbildung folgt</span></div>
+      {# Das Bild des Tages-Aufmachers liegt bereits auf dem Cover #}
+      {% if artikel.bild_data and not ist_lead %}
+      <div class="bild klein" style="background-image:url('{{ artikel.bild_data }}'); background-size:cover; background-position:center;"><span>{{ artikel.bild_credit }}</span></div>
       {% endif %}
       <h3>{{ artikel.titel }}</h3>
       {% for absatz in artikel.zusammenfassung %}
