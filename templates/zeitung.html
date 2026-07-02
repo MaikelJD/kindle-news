@@ -7,30 +7,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   /*
-    EDITORIAL v4 — Kindle-4 E-Ink (600 x 800 px), reines Schwarz/Weiss.
+    EDITORIAL v5 — Kindle-4 E-Ink (600 x 800 px), reines Schwarz/Weiss.
     Haltung: edel, ruhig, EINHEITLICHE Raender (kommen als echte PDF-Seiten-
     raender -> auf jeder Seite gleich), feine Linien, leichte Schnitte.
     Didone NUR fuer Masthead + Schlagzeilen + Ziffern. Sonst Grotesk (ruhig).
+
+    Typo-System: Zwei Ebenen.
+    1. LESE-EBENE in rem — haengt an html { font-size } (= schriftgroesse_px
+       aus config.yaml) und skaliert komplett mit: Fliesstext, Schlagzeilen,
+       Intro, Ueberblickspunkte.
+    2. ARCHITEKTUR-EBENE in festen px — Folio, Kicker, Wetter, Bildnachweis.
+       Bleibt bewusst klein und konstant: der Groessenkontrast zwischen
+       grosszuegigem Lesetext und feiner Beschriftung traegt die Eleganz.
   */
 
   :root {
     --didone: 'Bodoni Moda', 'Times New Roman', serif;
     --grotesk: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
     --tinte: #111;
-    --text: #262626;
+    --text: #1f1f1f;
     --grau: #8a8a8a;
     --haar: #dcdcdc;
   }
 
   * { box-sizing: border-box; }
+
+  /* DER Regler: kommt aus config.yaml (pdf.schriftgroesse_px). */
+  html { font-size: {{ basis_schrift | default(26) }}px; }
+
   html, body { margin: 0; padding: 0; background: #fff; color: var(--tinte); }
 
   body {
     font-family: var(--grotesk);
-    font-size: 22px;          /* 6"-E-Ink: gross & gut lesbar (Nutzerwunsch) */
+    font-size: 1rem;
     line-height: 1.5;
     font-weight: 400;
     -webkit-font-smoothing: none;
+    /* Trennregel fuer ALLES, was Silbentrennung nutzt: Wort min. 6 Zeichen,
+       vor und nach dem Trennstrich min. 3 ("Be-wegung" saehe billig aus). */
+    hyphenate-limit-chars: 6 3 3;
   }
 
   .meta {
@@ -45,7 +60,7 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 9px;
+    font-size: 10px;
     color: var(--grau);
     padding-bottom: 20px;
   }
@@ -54,20 +69,20 @@
   .masthead-titel {
     font-family: var(--didone);
     font-weight: 500;
-    font-size: 42px;
+    font-size: 46px;
     line-height: 0.98;
     letter-spacing: -0.015em;
     margin: 0;
   }
 
   .wetter {
-    font-size: 9.5px;
+    font-size: 10.5px;
     color: var(--grau);
     padding: 16px 0 0 0;
     margin-top: 20px;
     border-top: 0.5px solid var(--haar);
     display: flex;
-    gap: 20px;
+    gap: 18px;
     flex-wrap: wrap;
   }
 
@@ -75,31 +90,36 @@
   .intro {
     font-family: var(--grotesk);
     font-weight: 400;
-    font-size: 23px;
+    font-size: 1.02rem;
     line-height: 1.46;
     color: var(--text);
-    margin: 40px 0 0 0;
+    margin: 1.5rem 0 0 0;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 
   /* ---------- Sektion (einheitlich, eine linke Kante) ---------- */
-  .sektion { margin-top: 44px; }
+  .sektion { margin-top: 1.7rem; }
   .sektion > .kicker {
     display: flex;
     align-items: baseline;
     gap: 10px;
     padding-bottom: 11px;
-    margin-bottom: 18px;
+    margin-bottom: 0.7rem;
     border-bottom: 0.5px solid var(--haar);
+    /* Kicker darf nie allein am Seitenende stranden -> mit Inhalt umbrechen */
+    break-inside: avoid;
+    break-after: avoid;
   }
   .kicker .nr {
     font-family: var(--didone);
     font-weight: 400;
-    font-size: 15px;
+    font-size: 16px;
     color: var(--grau);
   }
   .kicker .name {
     font-family: var(--grotesk);
-    font-size: 9.5px;
+    font-size: 10.5px;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -111,70 +131,80 @@
   ol.punkte li {
     counter-increment: pkt;
     display: flex;
-    gap: 16px;
+    gap: 0.6rem;
     align-items: baseline;
-    padding: 0 0 15px 0;
+    padding: 0 0 0.6rem 0;
+    break-inside: avoid;
   }
   ol.punkte li:last-child { padding-bottom: 0; }
   ol.punkte li::before {
     content: counter(pkt, decimal-leading-zero);
     font-family: var(--didone);
     font-weight: 400;
-    font-size: 18px;
-    min-width: 28px;
+    font-size: 0.72rem;
+    min-width: 1.15rem;
     color: var(--grau);
   }
   ol.punkte li span {
-    font-size: 20px;
-    line-height: 1.42;
+    font-size: 0.9rem;
+    line-height: 1.44;
     font-weight: 400;
     color: var(--text);
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 
   /* ---------- Artikel ---------- */
-  .artikel { margin-bottom: 26px; }
+  .artikel { margin-bottom: 1.1rem; }
   .artikel:last-child { margin-bottom: 0; }
   .artikel h3 {
     font-family: var(--didone);
     font-weight: 500;
-    font-size: 26px;
-    line-height: 1.14;
+    font-size: 1.12rem;
+    line-height: 1.15;
     letter-spacing: -0.01em;
-    margin: 0 0 9px 0;
+    margin: 0 0 0.35rem 0;
     break-inside: avoid;
     break-after: avoid;
+    text-wrap: balance;       /* mehrzeilige Schlagzeilen gleichmaessig brechen */
   }
-  /* Ueberblickspunkte nicht ueber den Seitenrand brechen */
-  ol.punkte li { break-inside: avoid; }
   /* Bild + Bildunterschrift zusammenhalten und mit der Schlagzeile koppeln */
   .artikel .bild { break-inside: avoid; break-after: avoid; }
   .artikel p {
-    margin: 0 0 12px 0;
-    font-size: 22px;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
     line-height: 1.5;
     color: var(--text);
+    /* Zeitungssatz: Blocksatz NUR mit Silbentrennung -- sonst entstehen
+       auf schmaler Spalte hässliche Wortluecken. */
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    orphans: 2;
+    widows: 2;
   }
   .artikel p:last-child { margin-bottom: 0; }
 
   /* Tages-Aufmacher: gross, mit Bild, ruhiger Grotesk-Vorspann */
   .artikel.lead h3 {
-    font-size: 34px;
-    line-height: 1.04;
+    font-size: 1.42rem;
+    line-height: 1.05;
     letter-spacing: -0.02em;
-    margin-bottom: 14px;
+    margin-bottom: 0.5rem;
   }
   .artikel.lead .vorspann {
     font-weight: 500;
-    font-size: 23px;
+    font-size: 1.02rem;
     line-height: 1.44;
+    text-align: left;         /* Vorspann bleibt ruhig linksbündig */
   }
 
   /* Ressort-Aufmacher (nicht Tages-Lead): mittelgross, ohne Bild */
   .artikel.aufmacher h3 {
-    font-size: 28px;
-    line-height: 1.08;
+    font-size: 1.24rem;
+    line-height: 1.1;
     letter-spacing: -0.015em;
-    margin-bottom: 12px;
+    margin-bottom: 0.45rem;
   }
 
   /* ---------- Bildflaeche ---------- */
@@ -182,18 +212,18 @@
     background: #efefef;
     aspect-ratio: 3 / 2;      /* flacher als 4:3 -> frisst auf 6" weniger Hoehe */
     width: 100%;
-    margin-bottom: 26px;
+    margin-bottom: 1rem;
     position: relative;
     /* Feine Kante: helle Fotos verschwimmen sonst mit dem weissen Seitenrand */
     border: 1px solid #cfcfcf;
   }
   /* Bilder in Rubrik-/Standard-Artikeln: flacher (Banner) und ruhiger gesetzt */
-  .bild.klein { aspect-ratio: 2 / 1; margin-bottom: 20px; }
+  .bild.klein { aspect-ratio: 2 / 1; margin-bottom: 0.8rem; }
   .bild span {
     position: absolute;
-    left: 0; bottom: -16px;
+    left: 0; bottom: -17px;
     font-family: var(--grotesk);
-    font-size: 8.5px;
+    font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.04em;
     color: var(--grau);

@@ -142,17 +142,22 @@ def baue_site():
     site = os.path.join(pfade["projekt"], "site")
     os.makedirs(site, exist_ok=True)
 
-    pdf_name = "zeitung.pdf"
-    shutil.copyfile(quell_pdf, os.path.join(site, pdf_name))
-
     zeitzone = config.get("standort", {}).get("zeitzone", "Europe/Berlin")
     jetzt = _jetzt(zeitzone)
+
+    # Datum im Dateinamen: So sehen KOReader und alle Zwischenspeicher (Caches)
+    # jeden Tag eine NEUE Datei -- niemand kann versehentlich die Ausgabe von
+    # gestern ausliefern. Zusaetzlich bleibt "zeitung.pdf" als feste Adresse
+    # fuer Browser-Lesezeichen erhalten.
+    pdf_name = f"zeitung-{jetzt.strftime('%Y-%m-%d')}.pdf"
+    shutil.copyfile(quell_pdf, os.path.join(site, pdf_name))
+    shutil.copyfile(quell_pdf, os.path.join(site, "zeitung.pdf"))
 
     _schreibe_catalog(site, config, pdf_name, jetzt)
     _schreibe_index(site, config, pdf_name)
 
     print(f"site/ gebaut: {site}")
-    print("  - zeitung.pdf")
+    print(f"  - {pdf_name} (+ zeitung.pdf als feste Adresse)")
     print("  - catalog.xml  (fuer KOReader/OPDS)")
     print("  - index.html   (zum Nachschauen im Browser)")
     return site

@@ -20,6 +20,13 @@ ki:
   # Für beste Qualität: "anthropic/claude-sonnet-4.6"
   modell: "anthropic/claude-haiku-4.5"
 
+# PDF-Darstellung. schriftgroesse_px ist DER Regler fuer die Lesbarkeit:
+# die gesamte Typo-Skala (Fliesstext, Schlagzeilen, Listen) haengt daran und
+# skaliert proportional mit. Am Geraet pruefen und hier feinjustieren --
+# 26 = kraeftig gross, 28 = deine gewohnte Kindle-Lesegroesse.
+pdf:
+  schriftgroesse_px: 26
+
 # Lizenzfreie Bilder (Wikimedia Commons / Openverse).
 # max = wie viele Bilder höchstens pro Ausgabe. Bewusst sparsam gehalten,
 # damit das kleine E-Ink-Layout ruhig bleibt. Auswahl-Logik siehe

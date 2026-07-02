@@ -11,7 +11,11 @@ name: Taegliche Zeitung
 
 on:
   schedule:
-    - cron: "0 6 * * *"      # jeden Tag um 06:00 UTC (= 07:00/08:00 in DE)
+    # 03:23 UTC = 05:23 dt. Sommerzeit / 04:23 Winterzeit.
+    # Bewusst FRUEH und zu einer "krummen" Minute: GitHub verzoegert
+    # geplante Laeufe zu vollen Stunden oft um 1-3 Stunden (Stosszeit).
+    # So ist die Zeitung auch mit Verzoegerung vor dem Fruehstueck da.
+    - cron: "23 3 * * *"
   workflow_dispatch:          # erlaubt manuelles Starten per Knopfdruck
 
 # Rechte, die der Pages-Deploy braucht

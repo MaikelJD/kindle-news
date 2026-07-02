@@ -79,6 +79,9 @@ def _baue_html(zeitung, config):
     zeitzone = config.get("standort", {}).get("zeitzone", "Europe/Berlin")
 
     return vorlage.render(
+        # Basis-Schriftgroesse aus config.yaml -- die ganze Typo-Skala im
+        # Template ist in rem angelegt und skaliert daran mit.
+        basis_schrift=config.get("pdf", {}).get("schriftgroesse_px", 26),
         titel=config["zeitung"]["titel"],
         ort=config.get("standort", {}).get("name", ""),
         datum_text=_deutsches_datum(zeitzone),
